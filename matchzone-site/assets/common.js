@@ -409,7 +409,13 @@ function playStream(url, title) {
             clearTimeout(window._stallTimer);
             window._stallTimer = null;
           }
-          _retryViaProxy();
+          const httpStatus = d.response && d.response.code;
+          if (httpStatus === 403) {
+            // 403 Forbidden = stream access denied / ended
+            _showError(true);
+          } else {
+            _retryViaProxy();
+          }
         }
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
