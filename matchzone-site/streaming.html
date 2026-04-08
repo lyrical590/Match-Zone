@@ -221,10 +221,17 @@ function filterStatus(btn) {
 
 function renderStreams() {
   clearCache();
-  let matches = allMatches;
+  let matches = [...allMatches];
   if (currentSport !== 'all') matches = matches.filter(m => (m.sport || '').toLowerCase() === currentSport);
   if (currentStatus === 'live') matches = matches.filter(m => isLive(m.status));
   else if (currentStatus === 'upcoming') matches = matches.filter(m => !isLive(m.status) && !isFinished(m.status));
+
+  // Sort: live first → upcoming → finished
+  matches.sort((a, b) => {
+    const rank = m => isLive(m.status) ? 2 : isFinished(m.status) ? 0 : 1;
+    return rank(b) - rank(a);
+  });
+
   document.getElementById('match-count').textContent = matches.length + ' match' + (matches.length !== 1 ? 'es' : '');
   const grid = document.getElementById('matches-grid');
   if (!matches.length) {
