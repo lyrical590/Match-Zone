@@ -463,11 +463,24 @@ footer a { color: var(--primary); }
   .score { font-size: 1.35rem; }
   .team-logo, .team-logo-placeholder { width: 34px; height: 34px; }
 
-  .ended-scoreboard { gap: 8px; }
-  .ended-score { font-size: 2.2rem; }
+  /* Match ended overlay — mobile */
+  .ended-overlay { align-items: flex-start; padding-top: 0; }
+  .ended-content { padding: 72px 16px 28px; max-width: 100%; }
+  .ended-close { top: 14px; right: 14px; width: 38px; height: 38px; font-size: .9rem; }
+  .ended-badge { font-size: .68rem; padding: 5px 12px; margin-bottom: 10px; }
+  .ended-league { margin-bottom: 18px; font-size: .7rem; }
+  .ended-scoreboard { gap: 6px; margin-bottom: 18px; }
+  .ended-score { font-size: 2rem; letter-spacing: 1px; }
+  .ended-logo { width: 52px; height: 52px; }
   .ended-logo .team-logo,
-  .ended-logo .team-logo-placeholder { width: 48px; height: 48px; font-size: 1.1rem; }
-  .ended-team-name { font-size: .85rem; }
+  .ended-logo .team-logo-placeholder { width: 52px; height: 52px; font-size: 1rem; border-radius: 10px; }
+  .ended-team-name { font-size: .75rem; max-width: 80px; }
+  .ended-ht { font-size: .68rem; margin-top: 6px; }
+  .ended-divider { margin-bottom: 14px; }
+  .ended-msg { font-size: .78rem; margin-bottom: 20px; }
+  .ended-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+  .ended-actions .btn, .ended-actions a { width: 100%; justify-content: center; text-align: center; }
+  .ended-watermark { margin-top: 20px; font-size: .65rem; }
 }
 
 /* ── MATCH ENDED OVERLAY ── */

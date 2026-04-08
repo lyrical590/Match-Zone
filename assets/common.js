@@ -213,6 +213,7 @@ function showMatchEndedScreen(m) {
   if (homeLogoEl) homeLogoEl.innerHTML = teamLogoHtml(m.homeLogo,  m.homeTeam  || 'Home');
   if (awayLogoEl) awayLogoEl.innerHTML = teamLogoHtml(m.awayLogo,  m.awayTeam  || 'Away');
   el.classList.add('open');
+  el.scrollTop = 0;
   document.body.style.overflow = 'hidden';
 }
 

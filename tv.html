@@ -23,10 +23,15 @@
       display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center;
     }
     .tv-search {
-      flex: 1; min-width: 180px; max-width: 320px;
+      flex: 1; min-width: 160px; max-width: 320px;
       background: var(--surface); border: 1px solid var(--border);
       color: var(--text); border-radius: 8px; padding: 8px 14px;
       font-size: .87rem; outline: none; transition: border-color .2s;
+    }
+    @media (max-width: 480px) {
+      .tv-search { min-width: 0; max-width: 100%; width: 100%; flex: none; }
+      .country-select { min-width: 0; width: 100%; }
+      .tv-count { width: 100%; }
     }
     .tv-search:focus { border-color: var(--primary); }
     .tv-search::placeholder { color: var(--muted); }
