@@ -374,7 +374,7 @@ function playStream(url, title) {
           qualBadge.classList.add("show");
         }
         if (!url.includes("stream-proxy?")) {
-          window._stallTimer = setTimeout(_retryViaProxy, 9000);
+          window._stallTimer = setTimeout(_retryViaProxy, 15000);
         }
       });
 
@@ -404,7 +404,7 @@ function playStream(url, title) {
         qualBadge.classList.add("show");
       }
       if (!url.includes("stream-proxy?")) {
-        window._stallTimer = setTimeout(_retryViaProxy, 9000);
+        window._stallTimer = setTimeout(_retryViaProxy, 15000);
         video.addEventListener("timeupdate", function _c() {
           clearTimeout(window._stallTimer);
           window._stallTimer = null;
@@ -777,20 +777,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Fullscreen icon sync
-  document.addEventListener("fullscreenchange", () => {
+  // Fullscreen icon sync + auto-resume video if browser paused it during transition
+  const _onFullscreenChange = () => {
     const icon = document.getElementById("fs-icon");
     if (icon)
-      icon.className = document.fullscreenElement
+      icon.className = document.fullscreenElement || document.webkitFullscreenElement
         ? "fas fa-compress"
         : "fas fa-expand";
+    // Clear stall timer — fullscreen layout shift should not be treated as a stall
+    if (window._stallTimer) { clearTimeout(window._stallTimer); window._stallTimer = null; }
+    // Some browsers pause the video during fullscreen transition — resume it
+    const player = document.getElementById("player-modal");
+    const video = document.getElementById("player-video");
+    if (player && player.classList.contains("open") && video && video.src &&
+        !video.ended && video.paused && video.style.display !== "none") {
+      setTimeout(() => { if (video.paused) video.play().catch(() => {}); }, 120);
+    }
+  };
+  document.addEventListener("fullscreenchange", _onFullscreenChange);
+  document.addEventListener("webkitfullscreenchange", _onFullscreenChange);
+
+  // PiP: keep video playing when entering/leaving PiP
+  document.addEventListener("enterpictureinpicture", () => {
+    if (window._stallTimer) { clearTimeout(window._stallTimer); window._stallTimer = null; }
+    const video = document.getElementById("player-video");
+    if (video && video.paused) setTimeout(() => { if (video.paused) video.play().catch(() => {}); }, 120);
   });
 
-  // PiP exit sync
+  // PiP exit sync + resume in player
   document.addEventListener("leavepictureinpicture", () => {
     document
       .querySelectorAll(".nfp-pip-btn")
       .forEach((b) => b.classList.remove("pip-active"));
+    const video = document.getElementById("player-video");
+    if (video && video.paused) setTimeout(() => { if (video.paused) video.play().catch(() => {}); }, 120);
   });
 
   updateLiveBadge();
