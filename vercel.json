@@ -5,8 +5,8 @@
       "destination": "/matchzone-site/index.html"
     },
     {
-      "source": "/:path+",
-      "destination": "/matchzone-site/:path"
+      "source": "/(.+)",
+      "destination": "/matchzone-site/$1"
     }
   ]
 }
