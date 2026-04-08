@@ -133,15 +133,37 @@
       font-size: .65rem; letter-spacing: 1.2px; text-transform: uppercase;
     }
 
-    @media (max-width: 520px) {
-      .ended-card { padding: 36px 18px 32px; border-radius: 18px; }
-      .ended-logo, .ended-logo img.team-logo, .ended-logo .team-logo-placeholder {
-        width: 68px; height: 68px;
+    @media (max-width: 540px) {
+      .ended-page { padding: 24px 12px 48px; align-items: flex-start; padding-top: 32px; }
+      .ended-card { padding: 32px 20px 28px; border-radius: 20px; }
+      .ended-league-line { margin-bottom: 28px; }
+
+      /* Switch scoreboard to 2-row grid on mobile */
+      .ended-scoreboard {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 16px 8px;
+        align-items: start;
       }
-      .ended-logo .team-logo-placeholder { border-radius: 14px; font-size: 1.4rem; }
-      .ended-score-single, .ended-score { font-size: 2.8rem; letter-spacing: 1px; }
-      .ended-vs-col { padding: 0 10px; }
-      .ended-team-name { font-size: .88rem; max-width: 110px; }
+      .ended-team:first-child { grid-column: 1; grid-row: 1; }
+      .ended-team:last-child  { grid-column: 2; grid-row: 1; }
+      .ended-vs-col {
+        grid-column: 1 / -1; grid-row: 2;
+        padding: 0;
+      }
+
+      .ended-logo, .ended-logo img.team-logo {
+        width: 64px; height: 64px; border-radius: 12px;
+      }
+      .ended-logo .team-logo-placeholder {
+        width: 64px; height: 64px; border-radius: 12px; font-size: 1.3rem;
+      }
+      .ended-team-name { font-size: .85rem; max-width: 100%; }
+      .ended-score-single { font-size: 3rem; }
+      .ended-score-row { gap: 6px; justify-content: center; }
+      .ended-dash { font-size: 1.6rem; margin: 0 4px; }
+
       .ended-actions { flex-direction: column; align-items: stretch; }
       .ended-btn-primary, .ended-btn-secondary { justify-content: center; width: 100%; }
     }
