@@ -39,7 +39,9 @@ function statusClass(status) {
 
 function isLive(status) {
   const s = (status || '').toLowerCase();
-  return s.includes('live') || s.includes('1st') || s.includes('2nd') || (s.includes('half') && !s.includes('half time'));
+  return s.includes('live') || s.includes('1st') || s.includes('2nd') ||
+    s.includes('extra') || s.includes('penalt') ||
+    (s.includes('half') && !s.includes('half time'));
 }
 
 function isFinished(status) {
