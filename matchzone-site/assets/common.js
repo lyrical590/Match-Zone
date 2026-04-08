@@ -326,7 +326,10 @@ function playStream(url, title) {
   if (pi) pi.className = "fas fa-pause";
   if (bi) bi.className = "fas fa-pause";
 
-  const isHLS = /\.m3u8|\.m3u(\?|$)/i.test(url);
+  // Strip query string before checking — prevents false HLS match on URLs like
+  // "player.html?url=something.m3u8" which are iframe pages, not HLS streams
+  const urlPath = url.split("?")[0].split("#")[0];
+  const isHLS = /\.m3u8?$/i.test(urlPath);
 
   if (isHLS && video) {
     video.style.display = "block";
@@ -450,10 +453,32 @@ function playStream(url, title) {
       });
     }
   } else if (iframe) {
+    // Skip HTTP streams when the site is on HTTPS — browser blocks mixed content
+    if (url.startsWith("http://") && location.protocol === "https:") {
+      if (window._streamFallbacks && window._streamFallbacks.length) {
+        const next = window._streamFallbacks.shift();
+        _showLoader("Trying another stream…");
+        playStream(next.url, next.title || title);
+      } else {
+        _hideLoader();
+        if (errMsg) errMsg.classList.add("show");
+      }
+      return;
+    }
     iframe.src = url;
     iframe.style.display = "block";
     iframe.onload = () => _hideLoader();
-    setTimeout(() => _hideLoader(), 6000);
+    // If iframe doesn't load or shows nothing within 12s, try next fallback
+    const _iframeTimer = setTimeout(() => {
+      if (iframe.style.display === "block" && window._streamFallbacks && window._streamFallbacks.length) {
+        const next = window._streamFallbacks.shift();
+        _showLoader("Trying another stream…");
+        playStream(next.url, next.title || title);
+      } else {
+        _hideLoader();
+      }
+    }, 12000);
+    iframe.onload = () => { clearTimeout(_iframeTimer); _hideLoader(); };
   }
 
   player.classList.add("open");
