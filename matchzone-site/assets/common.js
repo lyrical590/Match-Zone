@@ -301,6 +301,8 @@ function playStream(url, title) {
     if (errMsg) errMsg.classList.remove("show");
   };
   const _hideLoader = () => { if (loader) loader.classList.remove("show"); };
+  // Track if this stream session actually produced video frames
+  window._streamPlayed = false;
 
   if (video) {
     video.style.display = "none";
@@ -329,34 +331,32 @@ function playStream(url, title) {
       qualBadge.classList.add("show");
     }
 
+    const _showError = (played) => {
+      _hideLoader();
+      const ep = errMsg && errMsg.querySelector("p");
+      const es = errMsg && errMsg.querySelector("small");
+      if (ep) ep.textContent = played ? "Stream ended" : "Stream unavailable";
+      if (es) es.textContent = played
+        ? "The broadcast finished or lost connection. Try another stream from the list."
+        : "No working stream found. All available links were tried — check back during a live match.";
+      if (errMsg) errMsg.classList.add("show");
+      if (qualBadge) qualBadge.classList.remove("show");
+    };
+
     const _retryViaProxy = () => {
-      // Try next fallback stream before resorting to proxy/error
+      if (window._stallTimer) { clearTimeout(window._stallTimer); window._stallTimer = null; }
+      // If stream played content before stopping, don't silently cycle — show "ended" message
+      if (window._streamPlayed) { _showError(true); return; }
+      // Stream never played — try next fallback silently
       if (window._streamFallbacks && window._streamFallbacks.length) {
         const next = window._streamFallbacks.shift();
         _showLoader("Trying another stream…");
         if (qualBadge) { qualBadge.textContent = "Trying next…"; qualBadge.classList.add("show"); }
-        if (window._stallTimer) { clearTimeout(window._stallTimer); window._stallTimer = null; }
         playStream(next.url, next.title || title);
         return;
       }
-      if (url.includes("stream-proxy?")) {
-        _hideLoader();
-        if (errMsg) errMsg.classList.add("show");
-        if (qualBadge) qualBadge.classList.remove("show");
-        return;
-      }
-      const proxyUrl =
-        "/matchzone/data/stream-proxy?url=" + encodeURIComponent(url);
-      _showLoader("Trying backup stream…");
-      if (qualBadge) {
-        qualBadge.textContent = "Retrying…";
-        qualBadge.classList.add("show");
-      }
-      if (window._stallTimer) {
-        clearTimeout(window._stallTimer);
-        window._stallTimer = null;
-      }
-      playStream(proxyUrl, title);
+      // All fallbacks exhausted — show unavailable error
+      _showError(false);
     };
 
     if (window.Hls && Hls.isSupported()) {
@@ -386,9 +386,7 @@ function playStream(url, title) {
           qualBadge.textContent = "HLS";
           qualBadge.classList.add("show");
         }
-        if (!url.includes("stream-proxy?")) {
-          window._stallTimer = setTimeout(_retryViaProxy, 15000);
-        }
+        window._stallTimer = setTimeout(_retryViaProxy, 15000);
       });
 
       const _onFirstFrame = () => {
@@ -396,6 +394,7 @@ function playStream(url, title) {
           clearTimeout(window._stallTimer);
           window._stallTimer = null;
         }
+        window._streamPlayed = true;
         _hideLoader();
         video.removeEventListener("timeupdate", _onFirstFrame);
       };
@@ -417,15 +416,14 @@ function playStream(url, title) {
         qualBadge.textContent = "HLS";
         qualBadge.classList.add("show");
       }
-      if (!url.includes("stream-proxy?")) {
-        window._stallTimer = setTimeout(_retryViaProxy, 15000);
-        video.addEventListener("timeupdate", function _c() {
-          clearTimeout(window._stallTimer);
-          window._stallTimer = null;
-          _hideLoader();
-          video.removeEventListener("timeupdate", _c);
-        });
-      }
+      window._stallTimer = setTimeout(_retryViaProxy, 15000);
+      video.addEventListener("timeupdate", function _c() {
+        clearTimeout(window._stallTimer);
+        window._stallTimer = null;
+        window._streamPlayed = true;
+        _hideLoader();
+        video.removeEventListener("timeupdate", _c);
+      });
     }
   } else if (iframe) {
     iframe.src = url;
