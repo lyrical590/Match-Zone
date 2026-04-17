@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Docs — MatchZone Live</title>
+  <title>API Docs — LYRICAL Live</title>
   <meta property="og:type" content="website">
   <meta property="og:title" content="MatchZone Live – API Docs">
   <meta property="og:description" content="Prince API documentation — sports data, streams, TV channels and more.">
@@ -108,7 +108,7 @@
         <p style="margin:4px 0 0;font-size:.8rem;color:var(--muted)">Powered by <strong style="color:var(--accent)">Prince API</strong> — api.princetechn.com</p>
       </div>
     </div>
-    <p>MatchZone Live fetches all sports data, streams, news and TV channels from the <strong>Prince API</strong> — a high-performance sports data platform built by PrinceTech. This page documents every endpoint the site uses and how you can integrate them yourself.</p>
+    <p>LYRICAL Live fetches all sports data, streams, news and TV channels from the <strong>Prince API</strong> — a high-performance sports data platform built by PrinceTech. This page documents every endpoint the site uses and how you can integrate them yourself.</p>
   </div>
 </div>
 
@@ -136,7 +136,7 @@
 GET /matchzone/data/football-live?apikey=prince
 
 <span class="cmt"># Or with other query params</span>
-GET /matchzone/data/streaming?sport=football&apikey=prince</div>
+GET /LYRICAL/data/streaming?sport=football&apikey=prince</div>
   </div>
 
   <!-- HOW IT WORKS -->
@@ -174,7 +174,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/football-live</span>
+        <span class="endpoint-path">/LYRICAL/data/football-live</span>
       </div>
       <p style="margin:0 0 12px;font-size:.85rem;color:var(--muted)">Returns all currently live and recently finished football matches with scores, status, and league info.</p>
       <div style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Response</div>
@@ -201,7 +201,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/streaming</span>
+        <span class="endpoint-path">/LYRICAL/data/streaming</span>
       </div>
       <p style="margin:0 0 10px;font-size:.85rem;color:var(--muted)">Returns live and upcoming matches that have watchable stream links.</p>
       <div style="font-size:.8rem;margin-bottom:8px">
@@ -229,7 +229,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/basketball</span>
+        <span class="endpoint-path">/LYRICAL/data/basketball</span>
       </div>
       <p style="margin:0;font-size:.85rem;color:var(--muted)">Returns live basketball matches (NBA, EuroLeague, and more) with scores and status. Same response shape as <code style="color:var(--accent)">/football-live</code>.</p>
     </div>
@@ -238,7 +238,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/news</span>
+        <span class="endpoint-path">/LYRICAL/data/news</span>
       </div>
       <p style="margin:0 0 10px;font-size:.85rem;color:var(--muted)">Returns the latest sports news articles with titles, thumbnails, summaries and publication dates.</p>
       <div style="font-size:.8rem;margin-bottom:8px">
@@ -252,7 +252,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card" style="margin-bottom:20px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/tv-channels</span>
+        <span class="endpoint-path">/LYRICAL/data/tv-channels</span>
       </div>
       <p style="margin:0 0 10px;font-size:.85rem;color:var(--muted)">Returns 894+ live TV channels from 49 countries. Each channel has a name, logo, language, and an HLS stream URL.</p>
       <div style="font-size:.8rem;margin-bottom:8px">
@@ -279,7 +279,7 @@ GET /matchzone/data/streaming?sport=football&apikey=prince</div>
     <div class="docs-card">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="method-badge">GET</span>
-        <span class="endpoint-path">/matchzone/data/tv-countries</span>
+        <span class="endpoint-path">/LYRICAL/data/tv-countries</span>
       </div>
       <p style="margin:0;font-size:.85rem;color:var(--muted)">Returns the list of 49 available countries with their ISO code and flag emoji — used to populate the Live TV country selector.</p>
     </div>
@@ -357,12 +357,12 @@ vercel
 
   <!-- FOOTER INFO -->
   <div style="border-top:1px solid var(--border);padding-top:24px;font-size:.82rem;color:var(--muted)">
-    <p style="margin:0">Built by <strong style="color:var(--text)">PrinceTech</strong> · API hosted at <a href="https://api.princetechn.com" style="color:var(--primary)" target="_blank">api.princetechn.com</a> · Free public key: <code style="color:var(--accent)">prince</code></p>
+    <p style="margin:0">Built by <strong style="color:var(--text)">LYRICAL</strong> · API hosted at <a href="https://api.LYRICAL.com" style="color:var(--primary)" target="_blank">api.princetechn.com</a> · Free public key: <code style="color:var(--accent)">prince</code></p>
   </div>
 
 </div>
 
-<footer><p>&#9889; MatchZone Live &nbsp;|&nbsp; &copy; 2025 PrinceTech &nbsp;|&nbsp; <a href="docs.html">API Docs</a> &nbsp;|&nbsp; <a href="https://github.com/Mayelprince" target="_blank" rel="noopener" style="color:inherit"><i class="fab fa-github"></i> GitHub</a></p></footer>
+<footer><p>&#9889; LYRICAL Live &nbsp;|&nbsp; &copy; 2025 PrinceTech &nbsp;|&nbsp; <a href="docs.html">API Docs</a> &nbsp;|&nbsp; <a href="https://github.com/Mayelprince" target="_blank" rel="noopener" style="color:inherit"><i class="fab fa-github"></i> GitHub</a></p></footer>
 
 <script src="assets/common.js"></script>
 </body>
